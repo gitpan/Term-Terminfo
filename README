@@ -1,0 +1,47 @@
+NAME
+    "Term::Terminfo" - access the terminfo database
+
+SYNOPSIS
+     use Term::Terminfo;
+
+     my $ti = Term::Terminfo->new;
+
+     printf "This terminal %s do overstrike\n",
+        $ti->getflag('os') ? "can" : "cannot";
+
+     printf "Tabs on this terminal are initially every %d columns\n",
+        $ti->getnum('it');
+
+DESCRIPTION
+    Objects in this class provide access to terminfo database entires.
+
+CONSTRUCTOR
+  $ti = Term::Terminfo->new( $termtype )
+    Constructs a new "Term::Terminfo" object representing the given
+    termtype. If $termtype is not defined, $ENV{TERM} will be used instead.
+    If that variable is empty, "vt100" will be used.
+
+METHODS
+  $bool = $ti->getflag( $capname )
+    Returns the value of the named boolean capability.
+
+  $num = $ti->getnum( $capname )
+    Returns the value of the named numeric capability.
+
+  $str = $ti->getstr( $capname )
+    Returns the value of the named string capability.
+
+TODO
+    This distribution provides a small accessor interface onto terminfo. It
+    was originally created simply so I can get at the "bce" capability flag
+    of the current terminal, because screen unlike every other terminal
+    ever, doesn't do this. Grrr.
+
+    The current implementation just screenscrapes the output of `infocmp`.
+    It should probably be implemented more sanely by direct access to
+    terminfo. It probably also wants more accessors for things like "tparm"
+    and "tputs". I may at some point consider them.
+
+AUTHOR
+    Paul Evans <leonerd@leonerd.org.uk>
+
