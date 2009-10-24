@@ -16,6 +16,6 @@ isa_ok( $ti, "Term::Terminfo", '$ti isa Term::TermInfo' );
 ok(  $ti->getflag( "xon" ), '$ti has xon' );
 ok( !$ti->getflag( "bce" ), '$ti has not bce' );
 
-is( $ti->getnum( "cols" ), 80, '$ti has 80 cols' );
+is( $ti->getnum( "it" ), 8, '$ti has initial tabs at 8' );
 
 is( $ti->getstr( "cr" ), "\cM", '$ti has ^M cr' );

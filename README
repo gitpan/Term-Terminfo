@@ -37,10 +37,8 @@ TODO
     of the current terminal, because screen unlike every other terminal
     ever, doesn't do this. Grrr.
 
-    The current implementation just screenscrapes the output of `infocmp`.
-    It should probably be implemented more sanely by direct access to
-    terminfo. It probably also wants more accessors for things like "tparm"
-    and "tputs". I may at some point consider them.
+    It probably also wants more accessors for things like "tparm" and
+    "tputs". I may at some point consider them.
 
 AUTHOR
     Paul Evans <leonerd@leonerd.org.uk>

@@ -1,4 +1,8 @@
 Revision history for Term-Terminfo
 
+0.02    CHANGES:
+         * A better implementation using -lncurses instead of scraping the
+           output of `infocmp`
+
 0.01    First version, released on an unsuspecting world.
 

@@ -8,9 +8,13 @@ package Term::Terminfo;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Carp;
+
+use base qw( DynaLoader );
+
+__PACKAGE__->DynaLoader::bootstrap( $VERSION );
 
 =head1 NAME
 
@@ -57,52 +61,6 @@ sub new
    return bless {
       term => $termtype,
    }, $class;
-}
-
-sub _init
-{
-   my $self = shift;
-
-   $self->{flags} = \my %flags;
-   $self->{nums}  = \my %nums;
-   $self->{strs}  = \my %strs;
-
-   open( my $fh, "-|", "infocmp", "-1", $self->{term} ) or
-      croak "Cannot execute infocmp - $!";
-
-   while( <$fh> ) {
-      next if m/^#/;
-
-      # Data lines start with a tab
-      next unless m/^\t(.*),$/;
-
-      my ( $name, $type, $value ) = 
-         $1 =~ m/^([a-z0-9]+)(?:([#=])(.*))?$/ or next;
-
-      if( !$type ) {
-         $flags{$name} = 1;
-      }
-      elsif( $type eq "#" ) {
-         $nums{$name} = $value;
-      }
-      elsif( $type eq "=" ) {
-         # The following inspired by Term::Cap
-         s/\\e/\033/ig,
-            s/\\n/\n/g,
-            s/\\l/\r/g,
-            s/\\t/\t/g,
-            s/\\b/\b/g,
-            s/\\f/\f/g,
-            s/\\s/ /g,
-            s/\\(.)/$1/g,
-            s/\^\?/\177/g,
-            s/\^(.)/chr(ord($1) & 0x1f)/eg,
-            s/\\(\d\d\d)/chr(oct($1) & 0177)/eg,
-            for $value;
- 
-         $strs{$name} = $value;
-      }
-   }
 }
 
 =head1 METHODS
@@ -166,8 +124,6 @@ originally created simply so I can get at the C<bce> capability flag of the
 current terminal, because F<screen> unlike every other terminal ever, doesn't
 do this. Grrr.
 
-The current implementation just screenscrapes the output of C<`infocmp`>. It
-should probably be implemented more sanely by direct access to F<terminfo>.
 It probably also wants more accessors for things like C<tparm> and C<tputs>.
 I may at some point consider them.
 

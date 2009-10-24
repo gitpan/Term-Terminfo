@@ -6,6 +6,7 @@ use Module::Build;
 my $build = Module::Build->new
   (
    module_name => 'Term::Terminfo',
+   extra_linker_flags => [ "-lcurses" ],
    requires => {
    },
    build_requires => {
