@@ -1,5 +1,9 @@
 Revision history for Term-Terminfo
 
+0.03    CHANGES:
+         * Try to detect term.h and -lcurses in Build.PL; throw N/A instead of
+           failure if not found
+
 0.02    CHANGES:
          * A better implementation using -lncurses instead of scraping the
            output of `infocmp`
