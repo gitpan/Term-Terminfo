@@ -1,5 +1,12 @@
 Revision history for Term-Terminfo
 
+0.04    CHANGES:
+         * Avoid hv_fetchs/hv_stores; should work on perl 5.8.8 and earlier
+           now
+        BUGFIXES:
+         * Don't rely on some BSD's (broken) idea of whether VT100 supports
+           the 'xon' capability; try 'am' instead...
+
 0.03    CHANGES:
          * Try to detect term.h and -lcurses in Build.PL; throw N/A instead of
            failure if not found

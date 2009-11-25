@@ -25,7 +25,7 @@ _init(self)
     int i;
 
   CODE:
-    termtype = SvPV_nolen(*hv_fetchs(self, "term", 0));
+    termtype = SvPV_nolen(*hv_fetch(self, "term", 4, 0));
 
     oldterm = cur_term;
 
@@ -61,9 +61,9 @@ _init(self)
       hv_store(strs, name, strlen(name), newSVpv(value, 0), 0);
     }
 
-    hv_stores(self, "flags", newRV_noinc((SV*)flags));
-    hv_stores(self, "nums",  newRV_noinc((SV*)nums));
-    hv_stores(self, "strs",  newRV_noinc((SV*)strs));
+    hv_store(self, "flags", 5, newRV_noinc((SV*)flags), 0);
+    hv_store(self, "nums",  4, newRV_noinc((SV*)nums),  0);
+    hv_store(self, "strs",  4, newRV_noinc((SV*)strs),  0);
 
     oldterm = set_curterm(oldterm);
     del_curterm(oldterm);

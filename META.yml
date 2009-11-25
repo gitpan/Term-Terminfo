@@ -1,6 +1,6 @@
 ---
 name: Term-Terminfo
-version: 0.03
+version: 0.04
 author:
   - 'Paul Evans <leonerd@leonerd.org.uk>'
 abstract: access the F<terminfo> database
@@ -15,7 +15,7 @@ configure_requires:
 provides:
   Term::Terminfo:
     file: lib/Term/Terminfo.pm
-    version: 0.03
+    version: 0.04
 generated_by: Module::Build version 0.35
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
