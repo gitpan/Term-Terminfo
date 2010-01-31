@@ -1,22 +1,24 @@
 ---
-name: Term-Terminfo
-version: 0.04
+abstract: 'access the F<terminfo> database'
 author:
   - 'Paul Evans <leonerd@leonerd.org.uk>'
-abstract: access the F<terminfo> database
-license: perl
-resources:
-  license: http://dev.perl.org/licenses/
 build_requires:
+  ExtUtils::CBuilder: 0
   Test::More: 0
 configure_requires:
+  ExtUtils::CChecker: 0.02
   Module::Build: 0
   Module::Build::Compat: 0
-provides:
-  Term::Terminfo:
-    file: lib/Term/Terminfo.pm
-    version: 0.04
-generated_by: Module::Build version 0.35
+generated_by: 'Module::Build version 0.3601'
+license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
+name: Term-Terminfo
+provides:
+  Term::Terminfo:
+    file: lib/Term/Terminfo.pm
+    version: 0.05
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.05

@@ -13,7 +13,7 @@ my $ti = Term::Terminfo->new( "vt100" );
 isa_ok( $ti, "Term::Terminfo", '$ti isa Term::TermInfo' );
 
 # Rely on some properties of the vt100 terminfo entry
-ok(  $ti->getflag( "xon" ), '$ti has xon' );
+ok(  $ti->getflag( "am" ), '$ti has am' );
 ok( !$ti->getflag( "bce" ), '$ti has not bce' );
 
 is( $ti->getnum( "it" ), 8, '$ti has initial tabs at 8' );

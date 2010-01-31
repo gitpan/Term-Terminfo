@@ -1,20 +1,19 @@
 #  You may distribute under the terms of either the GNU General Public License
 #  or the Artistic License (the same terms as Perl itself)
 #
-#  (C) Paul Evans, 2009 -- leonerd@leonerd.org.uk
+#  (C) Paul Evans, 2009,2010 -- leonerd@leonerd.org.uk
 
 package Term::Terminfo;
 
 use strict;
 use warnings;
 
-our $VERSION = '0.04';
-
 use Carp;
 
-use base qw( DynaLoader );
+our $VERSION = '0.05';
 
-__PACKAGE__->DynaLoader::bootstrap( $VERSION );
+require XSLoader;
+XSLoader::load( __PACKAGE__, $VERSION );
 
 =head1 NAME
 

@@ -1,5 +1,9 @@
 Revision history for Term-Terminfo
 
+0.05    CHANGES:
+         * Use XSLoader instead of DynaLoader
+         * Use ExtUtils::CChecker for build checking
+
 0.04    CHANGES:
          * Avoid hv_fetchs/hv_stores; should work on perl 5.8.8 and earlier
            now
