@@ -1,5 +1,9 @@
 Revision history for Term-Terminfo
 
+0.06    CHANGES:
+         * Provide accessors based on variable name
+         * Provide accessors for obtaining lists of cap or variable names
+
 0.05    CHANGES:
          * Use XSLoader instead of DynaLoader
          * Use ExtUtils::CChecker for build checking

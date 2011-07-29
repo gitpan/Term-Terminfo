@@ -1,7 +1,7 @@
 #  You may distribute under the terms of either the GNU General Public License
 #  or the Artistic License (the same terms as Perl itself)
 #
-#  (C) Paul Evans, 2009,2010 -- leonerd@leonerd.org.uk
+#  (C) Paul Evans, 2009-2011 -- leonerd@leonerd.org.uk
 
 package Term::Terminfo;
 
@@ -10,7 +10,7 @@ use warnings;
 
 use Carp;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 require XSLoader;
 XSLoader::load( __PACKAGE__, $VERSION );
@@ -31,9 +31,27 @@ C<Term::Terminfo> - access the F<terminfo> database
  printf "Tabs on this terminal are initially every %d columns\n",
     $ti->getnum('it');
 
+
+ printf "This terminal %s do overstrike\n",
+    $ti->flag_by_varname('over_strike') ? "can" : "cannot";
+
+ printf "Tabs on this terminal are initially every %d columns\n",
+    $ti->num_by_varname('init_tabs');
+
 =head1 DESCRIPTION
 
 Objects in this class provide access to F<terminfo> database entires.
+
+This database provides information about a terminal, in three separate sets of
+capabilities. Flag capabilities indicate the presence of a particular ability,
+feature, or bug simply by their presence. Number capabilities give the size,
+count or other numeric detail of some feature of the terminal. String
+capabilities are usually control strings that the terminal will recognise, or
+send.
+
+Capabilities each have two names; a short name called the capname, and a
+longer name called the varname. This class provides two sets of methods, one
+that works on capnames, one that work on varnames.
 
 =cut
 
@@ -57,9 +75,13 @@ sub new
    # If we've really no idea, call it a VT100
    $termtype ||= $ENV{TERM} || "vt100";
 
-   return bless {
+   my $self = bless {
       term => $termtype,
    }, $class;
+
+   $self->_init;
+
+   return $self;
 }
 
 =head1 METHODS
@@ -68,7 +90,12 @@ sub new
 
 =head2 $bool = $ti->getflag( $capname )
 
-Returns the value of the named boolean capability.
+=head2 $num = $ti->getnum( $capname )
+
+=head2 $str = $ti->getstr( $capname )
+
+Returns the value of the flag, number or string capability of the given
+capname.
 
 =cut
 
@@ -76,45 +103,110 @@ sub getflag
 {
    my $self = shift;
    my ( $capname ) = @_;
-
-   $self->_init unless $self->{flags};
-   return $self->{flags}{$capname};
+   return $self->{flags_by_capname}{$capname};
 }
-
-=head2 $num = $ti->getnum( $capname )
-
-Returns the value of the named numeric capability.
-
-=cut
 
 sub getnum
 {
    my $self = shift;
    my ( $capname ) = @_;
-
-   $self->_init unless $self->{nums};
-   return $self->{nums}{$capname};
+   return $self->{nums_by_capname}{$capname};
 }
-
-=head2 $str = $ti->getstr( $capname )
-
-Returns the value of the named string capability.
-
-=cut
 
 sub getstr
 {
    my $self = shift;
    my ( $capname ) = @_;
-
-   $self->_init unless $self->{strs};
-   return $self->{strs}{$capname};
+   return $self->{strs_by_capname}{$capname};
 }
 
-# Keep perl happy; keep Britain tidy
-1;
+=head2 $bool = $ti->flag_by_varname( $varname )
 
-__END__
+=head2 $num = $ti->num_by_varname( $varname )
+
+=head2 $str = $ti->str_by_varname( $varname )
+
+Returns the value of the flag, number or string capability of the given
+varname.
+
+=cut
+
+sub flag_by_varname
+{
+   my $self = shift;
+   my ( $varname ) = @_;
+   return $self->{flags_by_varname}{$varname};
+}
+
+sub num_by_varname
+{
+   my $self = shift;
+   my ( $varname ) = @_;
+   return $self->{nums_by_varname}{$varname};
+}
+
+sub str_by_varname
+{
+   my $self = shift;
+   my ( $varname ) = @_;
+   return $self->{strs_by_varname}{$varname};
+}
+
+=head2 @capnames = $ti->flag_capnames
+
+=head2 @capnames = $ti->num_capnames
+
+=head2 @capnames = $ti->str_capnames
+
+Return lists of the capnames of the supported flags, numbers, and strings
+
+=cut
+
+sub flag_capnames
+{
+   my $self = shift;
+   return sort keys %{ $self->{flags_by_capname} };
+}
+
+sub num_capnames
+{
+   my $self = shift;
+   return sort keys %{ $self->{nums_by_capname} };
+}
+
+sub str_capnames
+{
+   my $self = shift;
+   return sort keys %{ $self->{strs_by_capname} };
+}
+
+=head2 @varnames = $ti->flag_varnames
+
+=head2 @varnames = $ti->num_varnames
+
+=head2 @varnames = $ti->str_varnames
+
+Return lists of the varnames of the supported flags, numbers, and strings
+
+=cut
+
+sub flag_varnames
+{
+   my $self = shift;
+   return sort keys %{ $self->{flags_by_varname} };
+}
+
+sub num_varnames
+{
+   my $self = shift;
+   return sort keys %{ $self->{nums_by_varname} };
+}
+
+sub str_varnames
+{
+   my $self = shift;
+   return sort keys %{ $self->{strs_by_varname} };
+}
 
 =head1 TODO
 
@@ -129,3 +221,7 @@ I may at some point consider them.
 =head1 AUTHOR
 
 Paul Evans <leonerd@leonerd.org.uk>
+
+=cut
+
+0x55AA;

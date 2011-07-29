@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 8;
 
 use Term::Terminfo;
 
@@ -19,3 +19,10 @@ ok( !$ti->getflag( "bce" ), '$ti has not bce' );
 is( $ti->getnum( "it" ), 8, '$ti has initial tabs at 8' );
 
 is( $ti->getstr( "cr" ), "\cM", '$ti has ^M cr' );
+
+# Now again by varname
+ok( $ti->flag_by_varname( "auto_right_margin" ), '$ti has auto_right_margin' );
+
+is( $ti->num_by_varname( "init_tabs" ), 8, '$ti has init_tabs at 8' );
+
+is( $ti->str_by_varname( "carriage_return" ), "\cM", '$ti has ^M carriage_return' );
