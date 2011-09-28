@@ -1,5 +1,8 @@
 Revision history for Term-Terminfo
 
+0.07    CHANGES:
+         * Optional support for unibilium in preference to term.h/-lcurses
+
 0.06    CHANGES:
          * Provide accessors based on variable name
          * Provide accessors for obtaining lists of cap or variable names

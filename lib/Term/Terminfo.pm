@@ -10,7 +10,7 @@ use warnings;
 
 use Carp;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 require XSLoader;
 XSLoader::load( __PACKAGE__, $VERSION );
@@ -52,6 +52,11 @@ send.
 Capabilities each have two names; a short name called the capname, and a
 longer name called the varname. This class provides two sets of methods, one
 that works on capnames, one that work on varnames.
+
+This module optionally uses F<unibilium> to access the L<terminfo(5)>
+database, if it is available at compile-time. If not, it will use
+F<< <term.h> >> and F<-lcurses>. For more detail, see the L</SEE ALSO> section
+below.
 
 =cut
 
@@ -217,6 +222,17 @@ do this. Grrr.
 
 It probably also wants more accessors for things like C<tparm> and C<tputs>.
 I may at some point consider them.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item *
+
+C<unibilium> - a terminfo parsing library -
+<https://github.com/mauke/unibilium>
+
+=back
 
 =head1 AUTHOR
 

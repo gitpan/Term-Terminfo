@@ -8,28 +8,37 @@ eval { require ExtUtils::CChecker; 1 } or
 
 my $cc = ExtUtils::CChecker->new;
 
-$cc->assert_compile_run(
-   diag => "no term.h",
-   source => <<'EOF' );
-#include <stdio.h>
-#include <term.h>
-int main(int argc, char *argv[]) {
-  TERMINAL *term = cur_term;
-  return 0;
+if( eval { require ExtUtils::PkgConfig } and
+    ExtUtils::PkgConfig->atleast_version( unibilium => "0.1.0" ) ) {
+   $cc->define( "HAVE_UNIBILIUM" ); # Not an officially exported EU::CC method
+
+   $cc->push_extra_compiler_flags( split ' ', ExtUtils::PkgConfig->cflags( "unibilium" ) );
+   $cc->push_extra_linker_flags  ( split ' ', ExtUtils::PkgConfig->libs( "unibilium" ) );
 }
+else {
+   $cc->assert_compile_run(
+      diag => "no term.h",
+      source => <<'EOF' );
+         #include <stdio.h>
+         #include <term.h>
+         int main(int argc, char *argv[]) {
+           TERMINAL *term = cur_term;
+           return 0;
+         }
 EOF
 
-$cc->find_libs_for(
-   diag => "cannot find lib curses",
-   libs => [ "ncurses", "curses" ],
-   source => <<'EOF' );
-#include <stdlib.h>
-#include <term.h>
-int main(int argc, char *argv[]) {
-  setupterm(NULL, 0, NULL);
-  return 0;
-}
+   $cc->find_libs_for(
+      diag => "cannot find lib curses",
+      libs => [ "ncurses", "curses" ],
+      source => <<'EOF' );
+         #include <stdlib.h>
+         #include <term.h>
+         int main(int argc, char *argv[]) {
+           setupterm(NULL, 0, NULL);
+           return 0;
+         }
 EOF
+}
 
 my $build = $cc->new_module_build(
    module_name => 'Term::Terminfo',

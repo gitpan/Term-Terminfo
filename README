@@ -33,6 +33,11 @@ DESCRIPTION
     longer name called the varname. This class provides two sets of methods,
     one that works on capnames, one that work on varnames.
 
+    This module optionally uses unibilium to access the terminfo(5)
+    database, if it is available at compile-time. If not, it will use
+    <term.h> and -lcurses. For more detail, see the "SEE ALSO" section
+    below.
+
 CONSTRUCTOR
   $ti = Term::Terminfo->new( $termtype )
     Constructs a new "Term::Terminfo" object representing the given
@@ -72,6 +77,10 @@ TODO
 
     It probably also wants more accessors for things like "tparm" and
     "tputs". I may at some point consider them.
+
+SEE ALSO
+    *   "unibilium" - a terminfo parsing library -
+        <https://github.com/mauke/unibilium>
 
 AUTHOR
     Paul Evans <leonerd@leonerd.org.uk>
