@@ -16,13 +16,15 @@ if( eval { require ExtUtils::PkgConfig } and
    $cc->push_extra_linker_flags  ( split ' ', ExtUtils::PkgConfig->libs( "unibilium" ) );
 }
 else {
-   $cc->assert_compile_run(
+   $cc->find_include_dirs_for(
       diag => "no term.h",
+      dirs => [ [], [qw(/usr/include/ncurses)] ],
       source => <<'EOF' );
          #include <stdio.h>
          #include <term.h>
          int main(int argc, char *argv[]) {
-           TERMINAL *term = cur_term;
+           TERMINAL term;
+           char *name = term._termname;
            return 0;
          }
 EOF

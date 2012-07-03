@@ -1,5 +1,5 @@
 NAME
-    "Term::Terminfo" - access the terminfo database
+    `Term::Terminfo' - access the terminfo database
 
 SYNOPSIS
      use Term::Terminfo;
@@ -11,7 +11,6 @@ SYNOPSIS
 
      printf "Tabs on this terminal are initially every %d columns\n",
         $ti->getnum('it');
-
 
      printf "This terminal %s do overstrike\n",
         $ti->flag_by_varname('over_strike') ? "can" : "cannot";
@@ -35,14 +34,13 @@ DESCRIPTION
 
     This module optionally uses unibilium to access the terminfo(5)
     database, if it is available at compile-time. If not, it will use
-    <term.h> and -lcurses. For more detail, see the "SEE ALSO" section
-    below.
+    <term.h> and -lcurses. For more detail, see the SEE ALSO section below.
 
 CONSTRUCTOR
   $ti = Term::Terminfo->new( $termtype )
-    Constructs a new "Term::Terminfo" object representing the given
-    termtype. If $termtype is not defined, $ENV{TERM} will be used instead.
-    If that variable is empty, "vt100" will be used.
+    Constructs a new `Term::Terminfo' object representing the given
+    termtype. If `$termtype' is not defined, `$ENV{TERM}' will be used
+    instead. If that variable is empty, `vt100' will be used.
 
 METHODS
   $bool = $ti->getflag( $capname )
@@ -71,15 +69,15 @@ METHODS
 
 TODO
     This distribution provides a small accessor interface onto terminfo. It
-    was originally created simply so I can get at the "bce" capability flag
+    was originally created simply so I can get at the `bce' capability flag
     of the current terminal, because screen unlike every other terminal
     ever, doesn't do this. Grrr.
 
-    It probably also wants more accessors for things like "tparm" and
-    "tputs". I may at some point consider them.
+    It probably also wants more accessors for things like `tparm' and
+    `tputs'. I may at some point consider them.
 
 SEE ALSO
-    *   "unibilium" - a terminfo parsing library -
+    *   `unibilium' - a terminfo parsing library -
         <https://github.com/mauke/unibilium>
 
 AUTHOR
